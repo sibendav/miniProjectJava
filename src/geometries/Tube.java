@@ -64,7 +64,7 @@ public class Tube extends RadialGeometry  {
 
     /**
      * get axisRay function
-     * @return
+     * @return ray
      */
     public Ray get_axisRay() {
         return _axisRay;

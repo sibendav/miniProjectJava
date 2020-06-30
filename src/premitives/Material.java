@@ -6,20 +6,20 @@ package premitives;
  * @author  Simha Ben-David and Tahel Nadav
  */
 public class Material {
-    double _kd;
-    double _ks;
-    int _nShininess;
-    double _kt =0d;
-    double _kr =0d;
+    double _kd; // diffuse
+    double _ks; // specular
+    int _nShininess; //sparklly
+    double _kt =0d; //skifot window
+    double _kr =0d; //maraa=1 else=0
 
     /**
      * Material ctr
      *
-     * @param kd
-     * @param ks
-     * @param nShininess
-     * @param kt
-     * @param kr
+     * @param kd double
+     * @param ks double
+     * @param nShininess int
+     * @param kt double
+     * @param kr double
      */
     public Material(double kd, double ks, int nShininess, double kt, double kr) {
         this._kd = kd;
@@ -31,9 +31,9 @@ public class Material {
 
     /**
      *
-     * @param kd
-     * @param ks
-     * @param nShininess
+     * @param kd double
+     * @param ks double
+     * @param nShininess int
      */
     public Material(double kd, double ks, int nShininess) {
         this(kd, ks, nShininess, 0d, 0d);
@@ -41,7 +41,7 @@ public class Material {
 
     /**
      * copy ctor
-     * @param material
+     * @param material Material
      */
     public Material(Material material){
         this(material._kd,material._ks, material._nShininess,material._kt,material._kr);

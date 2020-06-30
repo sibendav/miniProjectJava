@@ -25,10 +25,10 @@ public class Sphere extends RadialGeometry {
 
     /**
      * sphere ctr with color
-     * @param emissionLight
-     * @param material
-     * @param radius
-     * @param center
+     * @param emissionLight color
+     * @param material material
+     * @param radius double value
+     * @param center point
      */
     public Sphere(Color emissionLight, Material material, double radius, Point3D center) {
         super(emissionLight, radius, material);

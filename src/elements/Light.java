@@ -9,7 +9,7 @@ abstract class  Light {
     protected Color _intensity;
     /**
      * Light
-     * @param _intensity
+     * @param _intensity color
      */
     public Light(Color _intensity) {
         this._intensity = _intensity;

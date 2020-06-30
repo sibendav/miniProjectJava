@@ -29,7 +29,7 @@ public interface Intersectable {
 
         /**
          * ctr GeoPoint
-         * @param _geometry
+         * @param _geometry Geometry
          * @param pt that the point is related to
          */
         public GeoPoint(Geometry _geometry, Point3D pt) {
@@ -47,7 +47,7 @@ public interface Intersectable {
 
         /**
          * getPoint func
-         * @return
+         * @return Point3D
          */
         public Point3D getPoint() {
             return _point;
@@ -55,7 +55,7 @@ public interface Intersectable {
 
         /**
          * getGeometry func
-         * @return
+         * @return Geometry
          */
         public Geometry getGeometry() {
             return _geometry;

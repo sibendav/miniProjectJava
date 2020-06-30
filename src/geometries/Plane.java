@@ -23,10 +23,10 @@ public class Plane extends Geometry {
 
     /**
      * ctr plane with colors
-     * @param emissionLight
-     * @param p1
-     * @param p2
-     * @param p3
+     * @param emissionLight color
+     * @param p1 Point3D
+     * @param p2 Point3D
+     * @param p3 Point3D
      */
     public Plane(Color emissionLight, Point3D p1, Point3D p2, Point3D p3) {
         super(emissionLight);
@@ -38,8 +38,8 @@ public class Plane extends Geometry {
     }
     /**
      * ctr with point and normal vec
-     * @param _p
-     * @param _normal
+     * @param _p Point3D
+     * @param _normal normal vector
      */
     public Plane(Point3D _p, Vector _normal) {
         this._p = new Point3D(_p);
@@ -48,9 +48,9 @@ public class Plane extends Geometry {
 
     /**
      * ctr with 3 points
-     * @param _p1
-     * @param _p2
-     * @param _p3
+     * @param _p1 Point3D
+     * @param _p2 Point3D
+     * @param _p3 Point3D
      */
     public Plane(Point3D _p1, Point3D _p2,Point3D _p3)  {
         this._p =new Point3D(_p1);

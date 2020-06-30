@@ -14,6 +14,11 @@ public interface LightSource {
      * @return color
      */
     public Color getIntensity(Point3D p);
+    /**
+     * getDistance function
+     * @param point point
+     * @return distance value
+     */
     double getDistance(Point3D point);
     /**
      * getL

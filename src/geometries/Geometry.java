@@ -20,7 +20,7 @@ public abstract class Geometry implements Intersectable{
 
     /**
      * get_emmission func
-     * @return
+     * @return color
      */
     public Color getEmmission() {
         return _emmission;
@@ -28,7 +28,7 @@ public abstract class Geometry implements Intersectable{
 
     /**
      * get_material func
-     * @return
+     * @return material
      */
     public Material getMaterial() {
         return _material;
@@ -42,7 +42,7 @@ public abstract class Geometry implements Intersectable{
 
     /**
      * ctr geometry
-     * @param _emmission
+     * @param _emmission color
      */
     public Geometry(Color _emmission) {
         this._emmission = _emmission;
@@ -58,8 +58,8 @@ public abstract class Geometry implements Intersectable{
 
     /**
      * ctr geomerty with material
-     * @param emission
-     * @param material
+     * @param emission color
+     * @param material maretial
      */
     public Geometry(Color emission, Material material) {
         this._emmission = new Color(emission);

@@ -67,7 +67,7 @@ public class Vector {
      * The function that subtract between two vectors
      * @param v Vector
      * @return the substracted vector
-     * @throws Throwable
+     * @throws Throwable if the vector is null
      */
     public Vector subtract(Vector v){
         return this._point.subtract(v._point);
@@ -136,7 +136,7 @@ public class Vector {
     /**
      * returning normal to this vector
      * @return the normal vector to this vector
-     * @throws Throwable
+     * @throws Throwable if the vector is null
      */
     public Vector normalized () {
         Vector h=new Vector(this);

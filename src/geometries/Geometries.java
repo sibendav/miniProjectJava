@@ -17,7 +17,7 @@ public class Geometries implements Intersectable {
     private List<Intersectable> _geometries;
 
     /**
-     * initial ctr
+     * initial ctr for geometry class
      */
     public Geometries()
     {
@@ -25,8 +25,8 @@ public class Geometries implements Intersectable {
     }
 
     /**
-     * ctr
-     * @param geometries
+     * ctr of geometry with parameters
+     * @param geometries  Intersectable
      */
     public Geometries(Intersectable... geometries)
     {
@@ -35,7 +35,7 @@ public class Geometries implements Intersectable {
 
     /**
      * adding geometries function
-     * @param geometries
+     * @param geometries Intersectable
      */
     public void add(Intersectable... geometries)
     {
@@ -44,6 +44,13 @@ public class Geometries implements Intersectable {
         }
 
     }
+
+    /**
+     * findIntsersections function
+     * @param ray Ray
+     * @param max double
+     * @return the intersection point of the ray with the ray
+     */
    public List<GeoPoint> findIntsersections(Ray ray,double max)
     {
         List<GeoPoint> intersections = null;
