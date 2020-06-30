@@ -131,7 +131,7 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    public List<GeoPoint> findIntsersections(Ray ray) {
+    public List<GeoPoint> findIntsersections(Ray ray,double max) {
         return null;
     }
 }

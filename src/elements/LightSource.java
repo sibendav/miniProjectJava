@@ -5,7 +5,7 @@ import premitives.Point3D;
 import premitives.Vector;
 /**
  * The interface LightSource
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public interface LightSource {
     /**
@@ -14,7 +14,7 @@ public interface LightSource {
      * @return color
      */
     public Color getIntensity(Point3D p);
-
+    double getDistance(Point3D point);
     /**
      * getL
      * @param p point

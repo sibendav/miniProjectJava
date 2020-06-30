@@ -6,7 +6,7 @@ import premitives.Ray;
  * Fields: tube's fields + height
  * implements Tube class
  * implements RadialGeometry abstract class
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Cylinder extends Tube {
     private double _height;

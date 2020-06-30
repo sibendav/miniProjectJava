@@ -10,7 +10,7 @@ import static premitives.Util.isZero;
 /**
  * The class: Triangle representing a Triangle in 3D space
  *  implements Polygon class
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Triangle extends Polygon {
 
@@ -70,8 +70,8 @@ public class Triangle extends Polygon {
      * @param ray
      * @return Intsersections points
      */
-    public List<GeoPoint> findIntsersections(Ray ray) {
-        List<GeoPoint> planeIntersections = _plane.findIntsersections(ray);
+    public List<GeoPoint> findIntsersections(Ray ray,double max) {
+        List<GeoPoint> planeIntersections = _plane.findIntsersections(ray, max);
         if (planeIntersections == null) return null;
 
         Point3D p0 = ray.getP();
@@ -97,6 +97,7 @@ public class Triangle extends Polygon {
         }
 
         return null;
+
     }
 
 }

@@ -15,7 +15,7 @@ import static premitives.Util.isZero;
  * The class: Plane representing a Plane in 3D space
  * Fields: Point and normal vector
  * implements Geometry interface
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Plane extends Geometry {
     private Point3D _p;
@@ -91,7 +91,7 @@ public class Plane extends Geometry {
     }
 
     @Override
-    public List<GeoPoint> findIntsersections(Ray R) {
+    public List<GeoPoint> findIntsersections(Ray R,double max) {
         Vector p0Q;
         try {
             p0Q = _p.subtract(R.getP());
@@ -104,9 +104,10 @@ public class Plane extends Geometry {
             return null;
 
         double t = alignZero(_normal.dotProduct(p0Q) / nv);
+        double tdist = alignZero(max - t);
 
 
-        if (t <= 0) {
+        if (t <= 0||tdist<=0) {
             return null;
         } else {
             return List.of(new GeoPoint(this, R.getTargetPoint(t)));

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * The interface: Intersectable representing an Intersectable object
  * Function: getNormal
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public interface Intersectable {
     /**
@@ -16,14 +16,16 @@ public interface Intersectable {
      * @param ray Ray
      * @return intsersections points
      */
-    List<GeoPoint> findIntsersections(Ray ray);
-
+    List<GeoPoint> findIntsersections(Ray ray,double max);
+    default List<GeoPoint> findIntsersections(Ray ray) {
+        return findIntsersections(ray, Double.POSITIVE_INFINITY);
+    }
     /**
      * The inner class: GeoPoint representing a point of geometry
      */
     public static class GeoPoint {
         public Geometry _geometry;
-        public Point3D point;
+        public Point3D _point;
 
         /**
          * ctr GeoPoint
@@ -32,14 +34,15 @@ public interface Intersectable {
          */
         public GeoPoint(Geometry _geometry, Point3D pt) {
             this._geometry = _geometry;
-            point = pt;
+            this._point = pt;
         }
-        @Override
-        public boolean equals(Object obj){
 
-            if(point.equals(((GeoPoint) obj).point)&&_geometry.equals(((GeoPoint) obj)._geometry))
-                return true;
-            return  false;
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            GeoPoint geoPoint = (GeoPoint) o;
+            return _geometry.equals(geoPoint._geometry) && _point.equals(geoPoint.getPoint());
         }
 
         /**
@@ -47,7 +50,7 @@ public interface Intersectable {
          * @return
          */
         public Point3D getPoint() {
-            return point;
+            return _point;
         }
 
         /**

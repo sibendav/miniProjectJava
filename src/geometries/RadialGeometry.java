@@ -8,7 +8,7 @@ import java.util.Objects;
  * The class: RadialGeometry representing an object with radius
  * Fields: radius
  * * implements Geometry interface
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public abstract class RadialGeometry extends Geometry {
     double _radius;

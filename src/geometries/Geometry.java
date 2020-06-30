@@ -6,11 +6,12 @@ import premitives.Vector;
 import premitives.Color;
 
 import javax.swing.*;
+import java.util.Objects;
 
 /**
  * The interface: Geometry representing a geometry object
  * Function: getNormal
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public abstract class Geometry implements Intersectable{
 
@@ -21,7 +22,7 @@ public abstract class Geometry implements Intersectable{
      * get_emmission func
      * @return
      */
-    public Color get_emmission() {
+    public Color getEmmission() {
         return _emmission;
     }
 
@@ -29,8 +30,8 @@ public abstract class Geometry implements Intersectable{
      * get_material func
      * @return
      */
-    public Material get_material() {
-        return new Material( _material);
+    public Material getMaterial() {
+        return _material;
     }
     /**
      * decleration of must implemented function that returning the object's normal
@@ -62,6 +63,7 @@ public abstract class Geometry implements Intersectable{
      */
     public Geometry(Color emission, Material material) {
         this._emmission = new Color(emission);
-        this._material = new Material(material);
+        this._material = new Material(material.getKd(),material.getKs(),material.getnShininess(),material.getKt(),material.getKr());
     }
+
 }

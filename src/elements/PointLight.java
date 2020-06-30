@@ -5,7 +5,7 @@ import premitives.Point3D;
 import premitives.Vector;
 /**
  * The Class: PointLight extends Light implements LightSource
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class PointLight extends Light implements LightSource {
     Point3D _position;
@@ -41,6 +41,12 @@ public class PointLight extends Light implements LightSource {
 
         return (_intensity.reduce(_kC + _kL * d + _kQ * dsquared));
     }
+
+    @Override
+    public double getDistance(Point3D point) {
+        return _position.distance(point);
+    }
+
 
     // Light vector
     @Override

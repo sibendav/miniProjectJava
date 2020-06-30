@@ -1,15 +1,14 @@
 package premitives;
-import premitives.Coordinate;
 
 /**
  * The class: Point3D representing a point in 3D space
  * Fields: 3 coordinates
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Point3D {
-    private Coordinate coord1;
-    private Coordinate coord2;
-    private Coordinate coord3;
+    Coordinate _coord1;
+    Coordinate _coord2;
+    Coordinate _coord3;
 
     /**
      * the final Zero Point
@@ -23,21 +22,21 @@ public class Point3D {
      * @param c3 coordinate value
      */
     public Point3D(Coordinate c1,Coordinate c2,Coordinate c3) {
-        coord1 = c1;
-        coord2 = c2;
-        coord3 = c3;
+        _coord1 = new Coordinate(c1);
+        _coord2 = new Coordinate(c2);
+        _coord3 = new Coordinate(c3);
     }
 
     /**
      * ctr with 3 double
-     * @param c1 double value
-     * @param c2 double value
-     * @param c3 double value
+     * @param d1 double value
+     * @param d2 double value
+     * @param d3 double value
      */
-    public Point3D(double c1,double c2,double c3) {
-        coord1 = new Coordinate(c1);
-        coord2 = new Coordinate(c2);
-        coord3 = new Coordinate(c3);
+    public Point3D(double d1,double d2,double d3) {
+        _coord1 = new Coordinate(d1);
+        _coord2 = new Coordinate(d2);
+        _coord3 = new Coordinate(d3);
     }
 
     /**
@@ -45,9 +44,9 @@ public class Point3D {
      * @param P Point3D value
      */
     public Point3D(Point3D P) {
-        coord1 = new Coordinate(P.getCoord1());
-        coord2 = new Coordinate(P.getCoord2());
-        coord3 = new Coordinate(P.getCoord3());
+        _coord1 = new Coordinate(P._coord1);
+        _coord2 = new Coordinate(P._coord2);
+        _coord3 = new Coordinate(P._coord3);
     }
 
     /**
@@ -56,7 +55,7 @@ public class Point3D {
      * @return Th substracted vector
      */
     public Vector subtract (Point3D P){
-        Vector V= new Vector(getCoord1().get()- P.getCoord1().get(), getCoord2().get()- P.getCoord2().get(), getCoord3().get()- P.getCoord3().get());
+        Vector V= new Vector(_coord1.get()- P._coord1.get(), _coord2.get()- P._coord2.get(), _coord3.get()- P._coord3.get());
         return V;
     }
 
@@ -66,7 +65,7 @@ public class Point3D {
      * @return the added vector
      */
     public Point3D add (Vector p) {
-        return new Point3D(p.getPoint().getCoord1().get()+coord1.get(),p.getPoint().getCoord2().get()+coord2.get(),p.getPoint().getCoord3().get()+coord3.get());
+        return new Point3D(p.getPoint()._coord1.get()+ _coord1.get(),p.getPoint().getCoord2().get()+ _coord2.get(),p.getPoint().getCoord3().get()+ _coord3.get());
     }
 
     /**
@@ -75,9 +74,9 @@ public class Point3D {
      * @return sum double
      */
     public double distanceSquared(Point3D p){
-        double c1= (p.getCoord1().get()-coord1.get())*(p.getCoord1().get()-coord1.get());
-        double c2= (p.getCoord2().get()-coord2.get())*(p.getCoord2().get()-coord2.get());
-        double c3= (p.getCoord3().get()-coord3.get())*(p.getCoord3().get()-coord3.get());
+        double c1= (p.getCoord1().get()- _coord1.get())*(p.getCoord1().get()- _coord1.get());
+        double c2= (p.getCoord2().get()- _coord2.get())*(p.getCoord2().get()- _coord2.get());
+        double c3= (p.getCoord3().get()- _coord3.get())*(p.getCoord3().get()- _coord3.get());
         return c1+c2+c3;
     }
 
@@ -95,7 +94,7 @@ public class Point3D {
      * @return coord1 Coordinate
      */
     public Coordinate getCoord1() {
-        return coord1;
+        return _coord1;
     }
 
     /**
@@ -103,7 +102,7 @@ public class Point3D {
      * @return coord2 Coordinate
      */
     public Coordinate getCoord2() {
-        return coord2;
+        return _coord2;
     }
 
     /**
@@ -111,7 +110,7 @@ public class Point3D {
      * @return coord3 Coordinate
      */
     public Coordinate getCoord3() {
-        return coord3;
+        return _coord3;
     }
 
     @Override
@@ -120,7 +119,7 @@ public class Point3D {
         if (obj == null) return false;
         if (!(obj instanceof Point3D)) return false;
         Point3D oth = (Point3D)obj;
-        if (coord1.get()==oth.coord1.get() && coord2.get()==(oth.coord2).get() && coord3.get()==(oth.coord3).get())
+        if (_coord1.get()==oth._coord1.get() && _coord2.get()==(oth._coord2).get() && _coord3.get()==(oth._coord3).get())
             return  true;
         else
             return  false;
@@ -129,9 +128,9 @@ public class Point3D {
     @Override
     public String toString() {
         return "Point3D{" +
-                "coord1=" + coord1 +
-                ", coord2=" + coord2 +
-                ", coord3=" + coord3 +
+                "coord1=" + _coord1 +
+                ", coord2=" + _coord2 +
+                ", coord3=" + _coord3 +
                 '}';
     }
 }

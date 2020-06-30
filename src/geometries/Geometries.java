@@ -4,13 +4,14 @@ import premitives.Point3D;
 import premitives.Ray;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * The class: Geometries representing a geometry object
  * implements Intersectable
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Geometries implements Intersectable {
     private List<Intersectable> _geometries;
@@ -43,19 +44,18 @@ public class Geometries implements Intersectable {
         }
 
     }
-   public List<GeoPoint> findIntsersections(Ray ray)
+   public List<GeoPoint> findIntsersections(Ray ray,double max)
     {
         List<GeoPoint> intersections = null;
 
         for (Intersectable geo : _geometries) {
-            List<GeoPoint> tempIntersections = geo.findIntsersections(ray);
+            List<GeoPoint> tempIntersections = geo.findIntsersections(ray, max);
             if (tempIntersections != null) {
                 if (intersections == null)
-                    intersections = new ArrayList<GeoPoint>();
+                    intersections = new LinkedList<>();
                 intersections.addAll(tempIntersections);
             }
         }
         return intersections;
-        //return (intersections.size() == 0) ? null : intersections.stream().distinct().collect(Collectors.toList());
     }
 }
