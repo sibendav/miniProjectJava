@@ -1,55 +1,75 @@
 package premitives;
+
 /**
  * The class: Material
- * @author  Simha Ben-David & Tahel Nadav
+ *
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Material {
-    double kd;
-    double ks;
-    int nShininess;
+    double _kd;
+    double _ks;
+    int _nShininess;
+    double _kt =0d;
+    double _kr =0d;
 
     /**
      * Material ctr
-     * @param _kd
-     * @param _ks
-     * @param _nShininess
+     *
+     * @param kd
+     * @param ks
+     * @param nShininess
+     * @param kt
+     * @param kr
      */
-   public Material(double _kd,double _ks,int _nShininess)
-    {
-        kd=_kd;
-        ks=_ks;
-        nShininess=_nShininess;
+    public Material(double kd, double ks, int nShininess, double kt, double kr) {
+        this._kd = kd;
+        this._ks = ks;
+        this._nShininess = nShininess;
+        this._kt = kt;
+        this._kr = kr;
     }
 
     /**
-     * Material ctr copy
+     *
+     * @param kd
+     * @param ks
+     * @param nShininess
+     */
+    public Material(double kd, double ks, int nShininess) {
+        this(kd, ks, nShininess, 0d, 0d);
+    }
+
+    /**
+     * copy ctor
      * @param material
      */
-    public Material(Material material) {
-        this(material.kd, material.ks, material.nShininess);
+    public Material(Material material){
+        this(material._kd,material._ks, material._nShininess,material._kt,material._kr);
     }
 
+    //getters
+
     /**
-     * getKd
-     * @return
+     *
+     * @return _kd
      */
     public double getKd() {
-        return kd;
+        return _kd;
     }
 
-    /**
-     * getKs
-     * @return
-     */
     public double getKs() {
-        return ks;
+        return _ks;
     }
 
-    /**
-     * getnShininess
-     * @return
-     */
     public int getnShininess() {
-        return nShininess;
+        return _nShininess;
+    }
+
+    public double getKt() {
+        return _kt;
+    }
+
+    public double getKr() {
+        return _kr;
     }
 }

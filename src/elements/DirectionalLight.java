@@ -5,7 +5,7 @@ import premitives.Point3D;
 import premitives.Vector;
 /**
  * The Class: DirectionalLight  extends Light implements LightSource
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class DirectionalLight  extends Light implements LightSource {
     private Vector _direction;
@@ -29,6 +29,12 @@ public class DirectionalLight  extends Light implements LightSource {
         return super.get_intensity();
         //       return _intensity;
     }
+
+    @Override
+    public double getDistance(Point3D point) {
+        return Double.POSITIVE_INFINITY;
+    }
+
 
     //instead of getDirection()
     @Override

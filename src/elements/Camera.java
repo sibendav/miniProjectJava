@@ -9,7 +9,7 @@ import static premitives.Util.isZero;
 
 /**
  * The Class: Camera
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Camera {
     private Point3D  p;

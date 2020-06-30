@@ -1,14 +1,12 @@
 package premitives;
 
-import java.awt.*;
-import premitives.Coordinate;
 /**
  * The class: Vector
  * Fields: a point in 3D space
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Vector {
-    private Point3D Point;
+    private Point3D _point;
 
     /**
      * ctr with 3 coordinates
@@ -16,8 +14,8 @@ public class Vector {
      * @param c2 Coordinate
      * @param c3 Coordinate
      */
-    public Vector(Coordinate c1,Coordinate c2,Coordinate c3) {
-        Point=new Point3D(c1,c2,c3);
+    public Vector(Coordinate c1,Coordinate c2,Coordinate c3){
+        this(c1._coord,c2._coord,c3._coord);
     }
 
     /**
@@ -29,12 +27,12 @@ public class Vector {
      * @throws IllegalArgumentException if it is the zero vector
      */
     public Vector(double c1,double c2,double c3)  {
-        Point3D N=new Point3D(c1,c2,c3);
+       // Point3D N=new Point3D(c1,c2,c3);
         /**if(N.equals(new Point3D(0,0,0))) {
             throw new IllegalArgumentException("the zero vector");
         }
       else**/
-        Point=new Point3D(c1,c2,c3);
+        _point =new Point3D(c1,c2,c3);
     }
 
 
@@ -43,7 +41,7 @@ public class Vector {
      * @param p Point3D
      */
     public Vector(Point3D p) {
-        Point=new Point3D(p);
+        _point =new Point3D(p);
     }
 
     /**
@@ -51,7 +49,7 @@ public class Vector {
      * @param v Vector
      */
     public Vector(Vector v) {
-        Point=new Point3D(v.getPoint());
+        _point =new Point3D(v.getPoint());
     }
 
     /**
@@ -61,7 +59,7 @@ public class Vector {
      */
     public Vector add(Vector v){
         if(v!=null)
-            return new Vector(Point.add(v));
+            return new Vector(_point.add(v));
         return null;
     }
 
@@ -72,7 +70,7 @@ public class Vector {
      * @throws Throwable
      */
     public Vector subtract(Vector v){
-        return new Vector(getPoint().getCoord1().get()-v.getPoint().getCoord1().get(),getPoint().getCoord2().get()-v.getPoint().getCoord2().get(),getPoint().getCoord3().get()-v.getPoint().getCoord3().get());
+        return this._point.subtract(v._point);
         /*if(v!=null)
             return new Vector(Point.subtract(v.getPoint()));
         return null;*/
@@ -84,7 +82,7 @@ public class Vector {
      * @return the scaleded vector
      */
     public Vector scale(double n)   {
-            return new Vector(Point.getCoord1().get() * n, Point.getCoord2().get() * n, Point.getCoord3().get() * n);
+            return new Vector(_point.getCoord1().get() * n, _point.getCoord2().get() * n, _point.getCoord3().get() * n);
     }
 
     /**
@@ -93,7 +91,7 @@ public class Vector {
      * @return double
      */
     public double dotProduct(Vector v){
-        return (Point.getCoord1().get()*v.Point.getCoord1().get())+(Point.getCoord2().get()*v.Point.getCoord2().get())+(Point.getCoord3().get()*v.Point.getCoord3().get());
+        return (_point.getCoord1().get()*v._point.getCoord1().get())+(_point.getCoord2().get()*v._point.getCoord2().get())+(_point.getCoord3().get()*v._point.getCoord3().get());
     }
 
     /**
@@ -102,9 +100,9 @@ public class Vector {
      * @return the cross product vector
      */
     public Vector crossProduct (Vector v) {
-        return new Vector(Point.getCoord2().get() * v.Point.getCoord3().get() - Point.getCoord3().get() * v.Point.getCoord2().get()
-                , Point.getCoord3().get() * v.Point.getCoord1().get() - Point.getCoord1().get() * v.Point.getCoord3().get()
-                , Point.getCoord1().get() * v.Point.getCoord2().get() - Point.getCoord2().get() * v.Point.getCoord1().get());
+        return new Vector(_point.getCoord2().get() * v._point.getCoord3().get() - _point.getCoord3().get() * v._point.getCoord2().get()
+                , _point.getCoord3().get() * v._point.getCoord1().get() - _point.getCoord1().get() * v._point.getCoord3().get()
+                , _point.getCoord1().get() * v._point.getCoord2().get() - _point.getCoord2().get() * v._point.getCoord1().get());
     }
 
     /**
@@ -112,7 +110,7 @@ public class Vector {
      * @return double value of the length in squared
      */
     public double lengthSquared()    {
-        return ((Point.getCoord1().get())*(Point.getCoord1().get())+(Point.getCoord2().get())*(Point.getCoord2().get())+(Point.getCoord3().get())*(Point.getCoord3().get()));
+        return ((_point.getCoord1().get())*(_point.getCoord1().get())+(_point.getCoord2().get())*(_point.getCoord2().get())+(_point.getCoord3().get())*(_point.getCoord3().get()));
     }
 
     /**
@@ -131,7 +129,7 @@ public class Vector {
     public Vector normalize()  {
         double ehadHelkeOrech = 1/length();
         Vector h=scale(ehadHelkeOrech);
-        Point=h.getPoint();
+        _point =h.getPoint();
         return this;
     }
 
@@ -150,7 +148,7 @@ public class Vector {
      * @return this point3D
      */
     public Point3D getPoint() {
-        return Point;
+        return _point;
     }
     @Override
     public boolean equals(Object obj) {
@@ -158,12 +156,12 @@ public class Vector {
         if (obj == null) return false;
         if (!(obj instanceof Vector)) return false;
         Vector oth = (Vector)obj;
-        return Point.equals(oth.Point);
+        return _point.equals(oth._point);
     }
     @Override
     public String toString() {
         return "Vector{" +
-                "Point=" + Point +
+                "Point=" + _point +
                 '}';
     }
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
  * The class: Tube representing a tube in 3D space
  * Fields: ray
  * implements RadialGeometry abstract class
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Tube extends RadialGeometry  {
     private Ray _axisRay;
@@ -71,7 +71,7 @@ public class Tube extends RadialGeometry  {
     }
 
     @Override
-    public List<GeoPoint> findIntsersections(Ray ray) {
+    public List<GeoPoint> findIntsersections(Ray ray,double max) {
         return null;
     }
 }

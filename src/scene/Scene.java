@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * The Class: Sence
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Scene {
     String _name;

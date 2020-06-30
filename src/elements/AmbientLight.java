@@ -3,7 +3,7 @@ package elements;
 import premitives.Color;
 /**
  * The Class: AmbientLight
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class AmbientLight {
     Color _intensity;

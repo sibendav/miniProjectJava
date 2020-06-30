@@ -3,7 +3,7 @@ package elements;
 import premitives.Color;
 /**
  * The Class: Light
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 abstract class  Light {
     protected Color _intensity;

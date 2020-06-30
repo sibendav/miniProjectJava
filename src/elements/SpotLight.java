@@ -7,7 +7,7 @@ import premitives.Vector;
 import static premitives.Util.isZero;
 /**
  * The Class: SpotLight extends PointLight
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class SpotLight extends PointLight {
     Vector _direction;

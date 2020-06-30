@@ -1,29 +1,37 @@
 package premitives;
 
 import static premitives.Util.isZero;
+import static renderer.render.DELTA;
 
 /**
  * The class: Ray a ray in 3D space
  * includes direction vector and a point
- * @author  Simha Ben-David & Tahel Nadav
+ * @author  Simha Ben-David and Tahel Nadav
  */
 public class Ray {
-    Vector Direction;
-    Point3D p;
+    Vector _direction;
+    Point3D _p;
 
 
     //ctr with vector and point
     public Ray(Vector direction, Point3D p) {
-        Direction = direction.normalize();
-        this.p = p;
+        _direction = direction.normalize();
+        this._p = p;
     }
+    public Ray(Point3D point, Vector direction, Vector normal) {
+        _direction = new Vector(direction).normalized();
 
+        double nv = normal.dotProduct(direction);
+
+        Vector normalDelta = normal.scale((nv > 0 ? DELTA : -DELTA));
+        _p = point.add(normalDelta);
+    }
     public Vector getDirection() {
-        return new Vector(Direction);
+        return new Vector(_direction);
     }
 
     public Point3D getP() {
-        return new Point3D(p);
+        return new Point3D(_p);
     }
 
     @Override
@@ -32,18 +40,18 @@ public class Ray {
         if (obj == null) return false;
         if (!(obj instanceof Ray)) return false;
         Ray oth = (Ray)obj;
-        return Direction.equals(oth.Direction) && p.equals(oth.p);
+        return _direction.equals(oth._direction) && _p.equals(oth._p);
 
     }
 
     @Override
     public String toString() {
         return "Ray{" +
-                "Direction=" + Direction +
-                ", p=" + p +
+                "Direction=" + _direction +
+                ", p=" + _p +
                 '}';
     }
     public Point3D getTargetPoint(double length) {
-        return isZero(length) ? p : p.add(Direction.scale(length));
+        return isZero(length) ? _p : _p.add(_direction.scale(length));
     }
 }
