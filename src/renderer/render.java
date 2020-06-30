@@ -11,7 +11,118 @@ import java.util.List;
 
 import static premitives.Util.alignZero;
 
+/**
+ * The Class: render
+ * @author  Simha Ben-David and Tahel Nadav
+ */
+
 public class render {
+
+
+    private int _threads = 1;
+    private final int SPARE_THREADS = 2;
+    private boolean _print = false;
+
+    /**
+     * Pixel is an internal helper class whose objects are associated with a Render object that
+     * they are generated in scope of. It is used for multithreading in the Renderer and for follow up
+     * its progress.<br/>
+     * There is a main follow up object and several secondary objects - one in each thread.
+     *
+     * @author Dan
+     */
+    private class Pixel {
+        private long _maxRows = 0;
+        private long _maxCols = 0;
+        private long _pixels = 0;
+        public volatile int row = 0;
+        public volatile int col = -1;
+        private long _counter = 0;
+        private int _percents = 0;
+        private long _nextCounter = 0;
+
+        /**
+         * The constructor for initializing the main follow up Pixel object
+         *
+         * @param maxRows the amount of pixel rows
+         * @param maxCols the amount of pixel columns
+         */
+        public Pixel(int maxRows, int maxCols) {
+            _maxRows = maxRows;
+            _maxCols = maxCols;
+            _pixels = maxRows * maxCols;
+            _nextCounter = _pixels / 100;
+            if (render.this._print) System.out.printf("\r %02d%%", _percents);
+        }
+
+        /**
+         * Default constructor for secondary Pixel objects
+         */
+        public Pixel() {
+        }
+
+        /**
+         * Internal function for thread-safe manipulating of main follow up Pixel object - this function is
+         * critical section for all the threads, and main Pixel object data is the shared data of this critical
+         * section.<br/>
+         * The function provides next pixel number each call.
+         *
+         * @param target target secondary Pixel object to copy the row/column of the next pixel
+         * @return the progress percentage for follow up: if it is 0 - nothing to print, if it is -1 - the task is
+         * finished, any other value - the progress percentage (only when it changes)
+         */
+        private synchronized int nextP(Pixel target) {
+            ++col;
+            ++_counter;
+            if (col < _maxCols) {
+                target.row = this.row;
+                target.col = this.col;
+                if (_print&&_counter == _nextCounter) {
+                    ++_percents;
+                    _nextCounter = _pixels * (_percents + 1) / 100;
+                    return _percents;
+                }
+                return 0;
+            }
+            ++row;
+            if (row < _maxRows) {
+                col = 0;
+                target.row=this.row;
+                target.col=this.col;
+                if (_print&&_counter == _nextCounter) {
+                    ++_percents;
+                    _nextCounter = _pixels * (_percents + 1) / 100;
+                    return _percents;
+                }
+                return 0;
+            }
+            return -1;
+        }
+
+        /**
+         * Public function for getting next pixel number into secondary Pixel object.
+         * The function prints also progress percentage in the console window.
+         *
+         * @param target target secondary Pixel object to copy the row/column of the next pixel
+         * @return true if the work still in progress, -1 if it's done
+         */
+        public boolean nextPixel(Pixel target) {
+            int percents = nextP(target);
+            if (percents > 0)
+                if (render.this._print) System.out.printf("\r %02d%%", percents);
+            if (percents >= 0)
+                return true;
+            if (render.this._print) System.out.printf("\r %02d%%", 100);
+            return false;
+        }
+    }
+
+    /**
+     * This function renders image's pixel color map from the scene included with
+     * the Renderer object
+     */
+
+
     public static final double DELTA = 0.1;
     private Scene _scene;
     private ImageWriter _imageWriter;
@@ -19,16 +130,29 @@ public class render {
     private static final double MIN_CALC_COLOR_K = 0.001;
 
 
+    /**
+     * ctr render
+     * @param _scene Scene
+     */
     public render(Scene _scene) {
         this._scene = _scene;
     }
 
+    /**
+     * ctr render
+     * @param imageWriter ImageWriter
+     * @param scene Scene
+     */
     public render(ImageWriter imageWriter, Scene scene) {
         this._imageWriter = imageWriter;
         this._scene = scene;
     }
 
-
+    /**
+     * findClosestIntersection func
+     * @param ray Ray
+     * @return GeoPoint closest
+     */
     private GeoPoint findClosestIntersection(Ray ray) {
 
         if (ray == null) {
@@ -53,6 +177,10 @@ public class render {
         return closestPoint;
     }
 
+    /**
+     * get_scene func
+     * @return Scene
+     */
     public Scene get_scene() {
         return _scene;
     }
@@ -62,35 +190,179 @@ public class render {
      * This function does not creating the picture file, but create the buffer pf pixels
      */
     public void renderImage() {
-        java.awt.Color background = _scene.get_background().getColor();
         Camera camera = _scene.get_camera();
-        Intersectable geometries = _scene.get_geometries();
+        java.awt.Color background = _scene.get_background().getColor();
         double distance = _scene.get_distance();
+        Intersectable geometries = _scene.get_geometries();
 
+        int Nx = _imageWriter.getNx();
+        int Ny = _imageWriter.getNy();
         double width = _imageWriter.getWidth();
         double height = _imageWriter.getHeight();
 
-        //Nx and Ny are the width and height of the image.
-        int Nx = _imageWriter.getNx(); //columns
-        int Ny = _imageWriter.getNy(); //rows
-        //pixels grid
-        for (int row = 0; row < Ny; row++) {
-            for (int column = 0; column < Nx; column++) {
-                Ray ray = camera.constructRayThroughPixel(Nx, Ny, column, row, distance, width, height);
-                GeoPoint closestPoint = findClosestIntersection(ray);
-                if (closestPoint == null) {
-                    _imageWriter.writePixel(column, row, background);
-                } else {
-                    _imageWriter.writePixel(column, row, calcColor(closestPoint, ray).getColor());
+
+
+	    /*for (int row = 0; row < Ny; row++) {
+	        for (int collumn = 0; collumn < Nx; collumn++)
+	        {
+	               Ray ray = camera.constructRayThroughPixel(Nx, Ny, collumn, row, distance, width, height);
+	               GeoPoint closestPoint=findCLosestIntersection(ray);
+	               if (closestPoint == null) {
+	                   image.writePixel(collumn, row, background);
+	               } else {
+	                   image.writePixel(collumn, row, calcColor(closestPoint,ray).getColor());
+	               }
+	        }
+	    }*/
+
+        final Pixel thePixel = new Pixel(Ny, Nx); // Main pixel management object
+        // Generate threads
+        Thread[] threads = new Thread[_threads];
+        for (int i = _threads - 1; i >= 0; --i) {
+            threads[i] = new Thread(() -> {
+                Pixel pixel = new Pixel();
+                while (thePixel.nextPixel(pixel)) {
+
+                    Ray ray = camera.constructRayThroughPixel(Nx, Ny, pixel.col, pixel.row, distance, width, height);
+                    List<GeoPoint> intersectionPoints = geometries.findIntsersections(ray);
+                    if( intersectionPoints==null)
+                    {
+                        _imageWriter.writePixel(pixel.col, pixel.row, background);
+                    }
+                    else
+                    {
+                        GeoPoint closestPoint = getClosestPoint(intersectionPoints);
+                        _imageWriter.writePixel(pixel.col, pixel.row, calcColor(Nx, Ny, pixel.col, pixel.row, distance, width, height).getColor());
+                    }
                 }
-            }
+            });
         }
+
+        // Start threads
+        for (Thread thread : threads) thread.start();
+
+        // Wait for all threads to finish
+        for (Thread thread : threads) try { thread.join(); } catch (Exception e) {}
+        if (_print)
+            System.out.printf("\r100%%\n");
+
+    }
+    /**
+     * Set multithreading <br>
+     * - if the parameter is 0 - number of coress less 2 is taken
+     *
+     * @param threads number of threads
+     * @return the Render object itself
+     */
+    public render setMultithreading(int threads) {
+        if (threads < 0)
+            throw new IllegalArgumentException("Multithreading patameter must be 0 or higher");
+        if (threads != 0)
+            _threads = threads;
+        else {
+            int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+            if (cores <= 2)
+                _threads = 1;
+            else
+                _threads = cores;
+        }
+        return this;
     }
 
+    /**
+     * Set debug printing on
+     *
+     * @return the Render object itself
+     */
+    public render setDebugPrint() {
+        _print = true;
+        return this;
+    }
+
+
+
+    /**
+     * calcColor func, calcolating the pixel color
+     * @param geopoint GeoPoint to color
+     * @param inRay Ray that coming to pixel
+     * @return color
+     */
     private Color calcColor(GeoPoint geopoint, Ray inRay) {
         GeoPoint closestPoint = findClosestIntersection(inRay);
         return calcColor(closestPoint, inRay, MAX_CALC_COLOR_LEVEL, 1.0).add(_scene.get_ambientLight().get_intensity());
     }
+
+    private Color calcColor(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight) {
+
+        Color color = Color.BLACK;
+
+        color = calcSubColor(nX, nY, j, i, screenDistance, screenWidth, screenHeight, 0);
+        color = color.add(_scene.get_ambientLight().get_intensity());
+        return color;
+    }
+    //////////////////////////////////////////////////////////////////////////////////////תיקוןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןןן
+    private Color calcSubColor(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight, int depth){
+        Camera camera = _scene.get_camera();
+        Color bkg = _scene.get_background();
+        List<Ray> fourCorners = camera.constructRayBeamThroughPixel(nX, nY, j, i, screenDistance, screenWidth, screenHeight);
+        Color[] fiveColors = new Color[5];
+
+        boolean areEqual = true;
+
+        Color color=new Color();
+        int v=0;
+
+        for(Ray ray : fourCorners) {
+
+            // Claculate the color of the ray
+            GeoPoint gp = findClosestIntersection(ray);
+            color = color.add(gp == null ? bkg : calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, 1d));
+
+            fiveColors[v++]=color;
+
+        }
+
+        for(int n=1; n<5; n++) {
+            areEqual &= fiveColors[n-1].equals(fiveColors[n]);
+        }
+
+        // Change to all equal in the list
+        if(areEqual)
+            return fiveColors[0];
+
+
+        // If we arrived at the thrashold
+        if(depth == 3){
+
+            Color sumColor = new Color();
+            for(Color c : fiveColors){
+                sumColor =  sumColor.add(c);
+            }
+
+            return sumColor.reduce(5.5);
+        }
+
+        // The complicated part
+
+        Color sumColor = new Color();
+
+        // Sum all the sub colors;
+
+        // Top right
+        sumColor =sumColor.add(calcSubColor(nX*2, nY*2, j*2+1, i*2, screenDistance, screenWidth, screenHeight, depth+1));
+
+        // Top left
+        sumColor =sumColor.add(calcSubColor(nX*2, nY*2, j*2, i*2, screenDistance, screenWidth, screenHeight, depth+1));
+
+        // Bottom right
+        sumColor =sumColor.add(calcSubColor(nX*2, nY*2, j*2+1, i*2+1, screenDistance, screenWidth, screenHeight, depth+1));
+
+        // Bottom left
+        sumColor =sumColor.add(calcSubColor(nX*2, nY*2, j*2, i*2+1, screenDistance, screenWidth, screenHeight, depth+1));
+
+        return sumColor.reduce(5.5);
+    }
+
 
 
 
@@ -141,7 +413,14 @@ public class render {
         _imageWriter.writeToImage();
     }
 
-
+    /**
+     * calcColor func for special location
+     * @param intersection GeoPoint
+     * @param inRay Ray
+     * @param level int
+     * @param k double
+     * @return color
+     */
     private Color calcColor(GeoPoint intersection, Ray inRay, int level, double k) {
 
        // Color result = _scene.get_ambientLight().get_intensity();
@@ -180,6 +459,19 @@ public class render {
 
     }
 
+    /**
+     * GetLightsSource func
+     * @param intersection GeoPoint
+     * @param result color
+     * @param lights List<LightSource>
+     * @param v vector
+     * @param n vector
+     * @param nShininess int
+     * @param kd double value
+     * @param ks double value
+     * @param k double value
+     * @return color
+     */
     private Color GetLightsSource(GeoPoint intersection, Color result, List<LightSource> lights, Vector v, Vector n, int nShininess, double kd, double ks,double k) {
         for (LightSource lightSource : lights) {
 

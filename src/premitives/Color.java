@@ -20,7 +20,7 @@ public class Color {
     /**
      * Default constructor - to generate Black Color (privately)
      */
-    private Color() {}
+    public Color() {}
 
     /**
      * Constructor to generate a color according to RGB components Each component in
@@ -115,6 +115,7 @@ public class Color {
         _b = other.getBlue();
         return this;
     }
+
 
     /**
      * Color getter - returns the color after converting it into java.awt.Color

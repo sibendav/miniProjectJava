@@ -15,11 +15,11 @@ public class PointLight extends Light implements LightSource {
 
     /**
      * PointLight ctr
-     * @param colorIntensity
-     * @param position
-     * @param kC
-     * @param kL
-     * @param kQ
+     @param colorIntensity color
+      * @param position point
+     * @param kC double value
+     * @param kL double value
+     * @param kQ double value
      */
     public PointLight(Color colorIntensity, Point3D position, double kC, double kL, double kQ) {
         super(colorIntensity);
@@ -29,11 +29,20 @@ public class PointLight extends Light implements LightSource {
         this._kL = kL;
         this._kQ = kQ;
     }
+
+    /**
+     * getIntensity func
+     * @return color
+     */
     public Color getIntensity() {
         return super.get_intensity();
     }
 
-    //overriding LightSource getIntensity(Point3D)
+    /**
+     * overriding LightSource getIntensity(Point3D)
+     * @param p point
+     * @return color
+     */
     @Override
     public Color getIntensity(Point3D p) {
         double dsquared = p.distanceSquared(_position);
@@ -42,13 +51,20 @@ public class PointLight extends Light implements LightSource {
         return (_intensity.reduce(_kC + _kL * d + _kQ * dsquared));
     }
 
+    /**
+     * getDistance overrided func
+     * @param point point
+     * @return distance double
+     */
     @Override
     public double getDistance(Point3D point) {
         return _position.distance(point);
     }
-
-
-    // Light vector
+    /**
+     * getL func
+     * @param p point
+     * @return Light vector
+     */
     @Override
     public Vector getL(Point3D p) {
         if (p.equals(_position)) {

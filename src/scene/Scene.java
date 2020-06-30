@@ -25,7 +25,7 @@ public class Scene {
 
     /**
      * add lights func
-     * @param light
+     * @param light LightSource
      */
     public void addLights(LightSource... light) {
         if (_lights == null) {
@@ -48,14 +48,14 @@ public class Scene {
 
     /**
      * get_lights func
-     * @return
+     * @return List<LightSource>
      */
     public List<LightSource> get_lights() {
         return _lights;
     }
     /**
      * get_distance func
-     * @return
+     * @return double
      */
     public double get_distance() {
         return _distance;
@@ -63,7 +63,7 @@ public class Scene {
 
     /**
      * get_name func
-     * @return
+     * @return String
      */
     public String get_name() {
         return _name;
@@ -71,7 +71,7 @@ public class Scene {
 
     /**
      * get_background func
-     * @return
+     * @return Color
      */
     public Color get_background() {
         return _background;
@@ -79,7 +79,7 @@ public class Scene {
 
     /**
      * get_geometries func
-     * @return
+     * @return Geometries
      */
     public Geometries get_geometries() {
         return _geometries;
@@ -87,7 +87,7 @@ public class Scene {
 
     /**
      * get_camera func
-     * @return
+     * @return Camera
      */
     public Camera get_camera() {
         return _camera;
@@ -95,7 +95,7 @@ public class Scene {
 
     /**
      * get_ambientLight func
-     * @return
+     * @return AmbientLight
      */
     public AmbientLight get_ambientLight() {
         return _ambientLight;
@@ -103,7 +103,7 @@ public class Scene {
 
     /**
      * set_background func
-     * @param _background
+     * @param _background Color
      */
     public void set_background(Color _background) {
         this._background = _background;
@@ -111,7 +111,7 @@ public class Scene {
 
     /**
      * set_ambientLight func
-     * @param _ambientLight
+     * @param _ambientLight AmbientLight
      */
     public void set_ambientLight(AmbientLight _ambientLight) {
         this._ambientLight = _ambientLight;
@@ -119,7 +119,7 @@ public class Scene {
 
     /**
      * set_camera func
-     * @param _camera
+     * @param _camera Camera
      */
     public void set_camera(Camera _camera) {
         this._camera = _camera;

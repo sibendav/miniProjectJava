@@ -36,11 +36,11 @@ public class Triangle extends Polygon {
 
     /**
      *
-     * @param emissionLight
-     * @param material
-     * @param p1
-     * @param p2
-     * @param p3
+     * @param emissionLight color
+     * @param material Material
+     * @param p1 Point3D
+     * @param p2 Point3D
+     * @param p3 Point3D
      */
     public Triangle(Color emissionLight, Material material, Point3D p1, Point3D p2, Point3D p3) {
         super(emissionLight, material, p1, p2, p3);
@@ -48,10 +48,10 @@ public class Triangle extends Polygon {
 
     /**
      *
-     * @param emissionLight
-     * @param p1
-     * @param p2
-     * @param p3
+     * @param emissionLight color
+     * @param p1 Point3D
+     * @param p2 Point3D
+     * @param p3 Point3D
      */
     public Triangle(Color emissionLight, Point3D p1, Point3D p2, Point3D p3) {
         super(emissionLight,p1, p2, p3);
@@ -67,7 +67,7 @@ public class Triangle extends Polygon {
 
     /**
      * the function finds intsersections points between ray and Triangle
-     * @param ray
+     * @param ray ray that cuts thr traingle
      * @return Intsersections points
      */
     public List<GeoPoint> findIntsersections(Ray ray,double max) {

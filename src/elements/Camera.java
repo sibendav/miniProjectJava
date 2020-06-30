@@ -5,6 +5,9 @@ import premitives.Ray;
 import premitives.Util;
 import premitives.Vector;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static premitives.Util.isZero;
 
 /**
@@ -22,7 +25,7 @@ public class Camera {
      * @param p1 point
      * @param to1 to direction
      * @param up1 up direction
-     * @throws Throwable
+     * @throws Throwable if the vectors not orthogonal
      */
     public Camera(Point3D p1, Vector to1, Vector up1)  {
         //if the the vectors are not orthogonal, throw exception.
@@ -42,9 +45,9 @@ public class Camera {
      * @param nY Y's pixel length
      * @param j X index of the shoting ray
      * @param i Y index of the shoting ray
-     * @param screenDistance
-     * @param screenWidth
-     * @param screenHeight
+     * @param screenDistance double value
+     * @param screenWidth double value
+     * @param screenHeight double value
      * @return the builded ray
      */
     public Ray constructRayThroughPixel (int nX, int nY,
@@ -78,32 +81,82 @@ public class Camera {
 
     /**
      * get P function
-     * @return
+     * @return point of camera
      */
     public Point3D getP() {
         return p;
     }
     /**
      * get TO vector function
-     * @return
+     * @return TO vector
      */
     public Vector getTo() {
         return to;
     }
     /**
      * get Up vector function
-     * @return
+     * @return Up vector
      */
     public Vector getUp() {
         return up;
     }
     /**
      * get Right vector function
-     * @return
+     * @return Right vector
      */
     public Vector getRight() {
         return right;
     }
+
+    public List<Ray> constructRayBeamThroughPixel(int nX, int nY, int j, int i, double screenDistance, double screenWidth, double screenHeight) {
+        if (isZero(screenDistance)) {
+            throw new IllegalArgumentException("distance cannot be 0");
+        }
+
+        List<Ray> rays = new LinkedList<>();
+
+        Point3D Pc = p.add(to.scale(screenDistance));
+
+        double Ry = screenHeight / nY;
+
+        double Rx = screenWidth / nX;
+        double ry=Ry/2;
+        double rx=Rx/2;
+
+        double yi = ((i - nY / 2d) * Ry + ry);
+        double xj = ((j - nX / 2d) * Rx + rx);
+
+        Point3D Pij = Pc;
+
+        if (!isZero(xj)) {
+            Pij = Pij.add(right.scale(xj));
+        }
+        if (!isZero(yi)) {
+            Pij = Pij.add(up.scale(-yi)); // Pij.add(_vUp.scale(-yi))
+        }
+        //4 corners
+
+        Point3D rDown = Pij.add(right.scale(rx)).add(up.scale(-ry));
+
+        Point3D rUp = Pij.add(right.scale(rx)).add(up.scale(ry));
+
+        Point3D lDown = Pij.add(right.scale(-rx)).add(up.scale(-ry));
+
+        Point3D lUp = Pij.add(right.scale(-rx)).add(up.scale(ry));
+
+        //4 rays for corners
+        rays.add(new Ray(new Vector(rDown.subtract(p)),p));
+        rays.add(new Ray(new Vector(rUp.subtract(p)),p));
+        rays.add(new Ray(new Vector(lDown.subtract(p)),p));
+        rays.add(new Ray(new Vector(lUp.subtract(p)),p));
+        rays.add(new Ray(new Vector(Pij.subtract(p)),p));
+
+
+
+
+        return rays;
+    }
+
 
 
 }

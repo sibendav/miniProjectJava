@@ -41,9 +41,9 @@ public abstract class RadialGeometry extends Geometry {
 
     /**
      * RadialGeometry ctr with material
-     * @param emissionLight
-     * @param radius
-     * @param material
+     * @param emissionLight color
+     * @param radius double value
+     * @param material material
      */
     public RadialGeometry(Color emissionLight, double radius, Material material) {
         super(emissionLight, material);
